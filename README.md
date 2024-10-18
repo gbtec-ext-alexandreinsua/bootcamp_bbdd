@@ -38,4 +38,4 @@ Cada grupo debe nombrar un portavoz para comunicarse entre grupos.
    SELECT * FROM  DIRECTORS WHERE NAME LIKE 'Sergio Leone';
    ```
 
-    - Una vez agregados hay que subirlos de nuevo al repositorio y avisar al equipo redactamente para que vuelva a revisar la PR
+    - Una vez agregados hay que subirlos de nuevo al repositorio y avisar al equipo redactamente para que vuelva a revisar la PR.
