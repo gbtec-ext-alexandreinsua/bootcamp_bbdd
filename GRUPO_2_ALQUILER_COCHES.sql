@@ -193,6 +193,18 @@ INSERT INTO MANTENIMIENTO (MANTENIMIENTO_ID, TIPOS_MANTENIMIENTO) VALUES ('1','I
 -- 1. Obtener todos los coches disponibles.
 -- 2. Obten una lista de todos los clientes que estan en la base de datos.
 -- 3. Mostrar todas las marcas de coches que utilizan gasolina.
+select
+	marca
+from
+	coches
+where
+	tipo_de_combustible_id in (
+	select
+		tipo_combustible_id
+	from
+		tipos_de_combustible
+	where
+		tipo_combustible_id = 2);
 -- 4. Obtener los datos de los alquileres de coche en los que el coste final fue mayor a 200
 
  
@@ -201,6 +213,24 @@ INSERT INTO MANTENIMIENTO (MANTENIMIENTO_ID, TIPOS_MANTENIMIENTO) VALUES ('1','I
 -- 1. Contar cuantos coches hay disponibles y cuantos no lo estan.
 -- 2. Listar los coches que son automaticos.
 -- 3. Moatrar los clientes que han alquilado un coche de color rojo.
+select
+	*
+from
+	clientes
+where
+	CLIENTES_ID in (
+	select
+		CLIENTES_ID
+	from
+		alquiler
+	where
+		coche_id in (
+		select
+			coche_id
+		from
+			coches
+		where
+			color like 'Rojo'));
 -- 4. Consulta cuántos coches de cada tipo de combustible hay.
 
  
@@ -209,6 +239,31 @@ INSERT INTO MANTENIMIENTO (MANTENIMIENTO_ID, TIPOS_MANTENIMIENTO) VALUES ('1','I
 -- 1. Obtener el nombre de los clientes que han alquilado coches más de una vez.
 -- 2. Listar los coches cuyo último alquiler fue en JUNIO 2024
 -- 3. Obtener el coche que más ha sido alquilado y el número de veces que ha sido alquilado.
+select
+	a.COCHE_ID,
+	count(a.ALQUILER_ID) as n_veces_alquilado
+from
+	coches c
+inner join ALQUILER a on
+	c.COCHE_ID = a.COCHE_ID
+group by
+	a.COCHE_ID
+order by
+	n_veces_alquilado desc;
+	
+
+select
+	a.COCHE_ID,
+	count(a.ALQUILER_ID) as n_veces_alquilado
+from
+	coches c
+inner join ALQUILER a on
+	c.COCHE_ID = a.COCHE_ID
+group by
+	a.COCHE_ID
+having count(a.ALQUILER_ID) = (
+								select max(cnt) from (select count(a2.coche_id) as cnt from ALQUILER a2 group by a2.coche_id)
+									);
 -- 4. Calcular el ingreso total generado por los alquileres de coches en color negro
 
 
