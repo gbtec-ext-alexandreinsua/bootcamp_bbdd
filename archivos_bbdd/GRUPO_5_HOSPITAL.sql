@@ -189,7 +189,7 @@ SELECT GENERO,AVG(EDAD) FROM PACIENTES p GROUP BY GENERO;
 --5 Lista las citas programadas por cada doctor, mostrando solo aquellos con 2 o más citas.
 --6 Encuentra los doctores y sus respectivas especialidades, ordenados por nombre de especialidad.
 
-SELECT NOMBRE_ESPECIALIDAD, NOMBRE FROM DOCTORES d JOIN ESPECIALIDADES e ORDER BY 1;
+SELECT NOMBRE_ESPECIALIDAD, NOMBRE FROM DOCTORES d JOIN ESPECIALIDADES e USING(ID_ESPECIALIDAD) ORDER BY 1;
 
 --7 Indica cual es el medicamento que más receta cada médico
 --8 Devuelve todas las salas del piso 2 que tengan como doctor asignado a alguien cuyo nombre empiece por "L"
