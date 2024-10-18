@@ -1395,54 +1395,67 @@ INSERT INTO COACHES (COACH_NAME, COACH_NATIONALITY, COACH_BIRTH_DATE, EXPERIENCE
 ('Luis Carrión', 'SPA', '1979-02-07',9);
 
 
---ENUNCIADOS EJERCICIOS
-
---1.Listar todos los equipos y sus entrenadores
-SELECT t.TEAM_NAME, c.COACH_NAME 
-FROM TEAMS t
-INNER JOIN COACHES c ON t.COACH_ID = c.COACH_ID
-GROUP BY t.TEAM_NAME;
+/*ENUNCIADOS EJERCICIOS
+ * 
+ * --1.Listar todos los equipos y sus entrenadores
 
 --2.Lista nombre y nacionalidad del entrenador todos los equipos de la Liga
-SELECT COACH_NAME , COACH_NATIONALITY
-FROM COACHES c ;
 
 --3.Lista los 5 Entrenadores con mas experiencia 
-SELECT c.COACH_NAME, c.EXPERIENCE_YEARS 
-FROM COACHES c 
-ORDER BY c.EXPERIENCE_YEARS DESC LIMIT 5;
-
 
 --4.Indica la edad media de los entrenadores de primera division:
-SELECT c.*, avg((julianday('now') - julianday (COACH_BIRTH_DATE)) / 365.25 )
-FROM COACHES c;
-	--HAY FECHAS QUE NO ESTÁN BIEN ESCRITAS
 
 --5.Devuelve los nombres de los jugadores de la Liga nacidos en Septiembre:
-SELECT p.PLAYER_NAME 
-FROM PLAYERS p 
-WHERE p.BIRTH_DATE LIKE '%-09%';
-	--HAY FECHAS QUE NO ESTÁN BIEN ESCRITAS Y NO FUNCIO NA CON YEARS
 
 --6.Selecciona el nombre de los entrenadores y jugadores cuyo primer apellido coincida (UTILIZAR SUBSTRING)
-SELECT c.COACH_NAME, p.PLAYER_NAME
-FROM COACHES c
-JOIN TEAMS t ON c.COACH_ID = t.COACH_ID
-JOIN PLAYERS p ON t.TEAM_ID = p.TEAM_ID
-WHERE SUBSTR(c.COACH_NAME, INSTR(c.COACH_NAME, ' ') + 1) = SUBSTR(p.PLAYER_NAME, INSTR(p.PLAYER_NAME, ' ') + 1);
 
 --7.Listar los nombres de todos los jugadores y sus respectivos equipos
 
-
+ SELECT p.PLAYER_NAME, t.TEAM_NAME
+FROM PLAYERS p
+INNER JOIN TEAMS t ON p.TEAM_ID = t.TEAM_ID;
 
 --8.Listar los partidos jugados en el Bernabéu
-
+ SELECT m.MATCH_ID
+FROM MATCHES m
+INNER JOIN STADIUMS s ON m.STADIUM_ID = s.STADIUM_ID
+WHERE s.STADIUM_ID = 14;
 
 --9.Listar los equipos, sus estadios y las capacidades de los estadios ordenados de mayor a menor capacidad.
-
+ SELECT t.TEAM_NAME , s.STADIUM_NAME, s.STADIUM_CAPACITY
+FROM STADIUMS s
+INNER JOIN TEAMS t ON s.STADIUM_ID = t.STADIUM_ID
+ORDER BY s.STADIUM_CAPACITY DESC
 
 --10.Selecciona el entrenador con mas partidos ganados
+SELECT c.COACH_NAME, COUNT(r.MATCH_ID) AS PARTIDOS_GANADOS, t.TEAM_NAME
+FROM COACHES c
+INNER JOIN TEAMS t ON c.COACH_ID = t.COACH_ID
+INNER JOIN MATCHES m ON t.TEAM_ID = m.HOME_TEAM_ID OR t.TEAM_ID = m.AWAY_TEAM_ID
+INNER JOIN RESULTS r ON m.MATCH_ID = r.MATCH_ID
+WHERE r.HOME_TEAM_GOALS > r.AWAY_TEAM_GOALS
+OR r.AWAY_TEAM_GOALS > r.HOME_TEAM_GOALS
+GROUP BY c.COACH_NAME
+ORDER BY PARTIDOS_GANADOS DESC
+LIMIT 1;
 
 --11.Selecciona los jugadores y su fecha de nacimiento que hayan nacido el primer dia de un mes y el equipo al que pertenecen tenga un estadio con capacidad para mas de 20000 personas
-
+SELECT P.PLAYER_NAME, P.BIRTH_DATE, T.TEAM_NAME
+FROM PLAYERS P
+JOIN TEAMS T ON P.TEAM_ID = T.TEAM_ID
+JOIN STADIUMS S ON T.STADIUM_ID = S.STADIUM_ID
+WHERE strftime('%d', P.BIRTH_DATE) = '01'
+  AND S.STADIUM_CAPACITY > 20000;
+  
 --12.Comprueba si hay errores en la BD entre los jugadores (2 jugadores del mismo equipo NO pueden tener el mismo numero)
+SELECT P1.PLAYER_NAME, P1., P1.PLAYER_NUMBER
+FROM PLAYERS P1
+JOIN (
+    SELECT TEAM_ID, PLAYER_NUMBER
+    FROM PLAYERS
+    GROUP BY TEAM_ID, PLAYER_NUMBER
+    HAVING COUNT(*) > 1
+) P2
+ON P1.TEAM_ID = P2.TEAM_ID
+AND P1.PLAYER_NUMBER = P2.PLAYER_NUMBER
+ORDER BY P1.TEAM_ID, P1.PLAYER_NUMBER;
