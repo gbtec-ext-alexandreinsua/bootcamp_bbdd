@@ -180,18 +180,35 @@ INSERT INTO PACIENTES (NOMBRE, EDAD, GENERO, TELEFONO, DIRECCION, NACIMIENTO, ID
 --1 Devuelve el nombre de todos los pacientes con al menos 50 años.
 --2 Muestra el promedio de edad de los pacientes por género.
 --3 Lista todos los pacientes nacidos en el año 1990.
+SELECT NOMBRE
+FROM PACIENTES
+WHERE NACIMIENTO LIKE '1990%';
+
 --4 Encuentra los 5 medicamentos más caros.
 
 --Medios
 --5 Lista las citas programadas por cada doctor, mostrando solo aquellos con 2 o más citas.
 --6 Encuentra los doctores y sus respectivas especialidades, ordenados por nombre de especialidad.
 --7 Indica cual es el medicamento que más receta cada médico
+SELECT d.NOMBRE AS Doctor, m.NOMBRE AS Medicamento, COUNT(r.ID_RECETA) AS Total_Recetas
+FROM DOCTORES d
+JOIN RECETAS r ON d.ID_DOCTOR = r.ID_DOCTOR
+JOIN MEDICAMENTOS m ON r.ID_MEDICAMENTO = m.ID_MEDICAMENTO
+GROUP BY d.ID_DOCTOR, d.NOMBRE, m.ID_MEDICAMENTO, m.NOMBRE
+ORDER BY Total_Recetas DESC;
+
 --8 Devuelve todas las salas del piso 2 que tengan como doctor asignado a alguien cuyo nombre empiece por "L"
 
 --Difíciles
 --9 Lista todos los pacientes que han recibido recetas de un doctor con especialidad en "Cardiología".
 --10 Muestra la ubicación de la sala, el nombre del doctor, y la fecha y hora de la cita, siempre que sean antes de las 14:00.
 --11 Muestra los el nombre del doctor y la ID_PACIENTE que no tienen pacientes asignados ni citas programadas, sustituyendo los valores "NULL" por "NO EXISTE".
+SELECT d.NOMBRE AS Doctor, m.NOMBRE AS Medicamento, COUNT(r.ID_RECETA) AS Total_Recetas
+FROM DOCTORES d
+JOIN RECETAS r ON d.ID_DOCTOR = r.ID_DOCTOR
+JOIN MEDICAMENTOS m ON r.ID_MEDICAMENTO = m.ID_MEDICAMENTO
+GROUP BY d.ID_DOCTOR, d.NOMBRE, m.ID_MEDICAMENTO, m.NOMBRE
+ORDER BY Total_Recetas DESC;
 --12 Muestra 5 doctores que tienen mas de 2 pacientes.
 */
      */
