@@ -521,6 +521,20 @@ INSERT INTO PUBLIC.PUBLIC.CURSO_ASIGNATURA (ID_CURSO, ID_ASIGNATURA) VALUES
 
 --1-Dime todos los profesores que se apelliden Pérez y que tengan mas 50 años de edad
 
+SELECT
+	p.NOMBRE, DATEDIFF('YEAR',
+	p.FECHA_NACIMIENTO,
+	TODAY()) AS EDAD_PROFESOR	
+FROM
+	PUBLIC.PUBLIC.PROFESOR p
+WHERE
+	p.NOMBRE LIKE '%Pérez%' AND
+	DATEDIFF('YEAR',
+	p.FECHA_NACIMIENTO,
+	TODAY()) > 50
+;
+
+
 
 --2-Sacar la edad media de los estudiantes que se hayan graduado
 
@@ -536,7 +550,20 @@ INSERT INTO PUBLIC.PUBLIC.CURSO_ASIGNATURA (ID_CURSO, ID_ASIGNATURA) VALUES
 			MEDIANAS
 ---------------------------------*/
            
---5--Lista los profesores imparten más de dos asignatura he indica cuantas son          
+--5--Lista los profesores imparten más de dos asignatura he indica cuantas son
+
+SELECT
+	p.NOMBRE,
+	COUNT(a.ID_PROFESOR) AS CUANTAS
+FROM
+	PUBLIC.PUBLIC.ASIGNATURA a
+INNER JOIN PUBLIC.PUBLIC.PROFESOR p ON
+	a.ID_PROFESOR = p.ID_PROFESOR
+	--WHERE COUNT(a.ID_PROFESOR) > 2 NO FUNCIONA Y NO HAY MANERA DE QUE LO HAGA
+GROUP BY
+	p.NOMBRE
+ORDER BY
+	COUNT(a.ID_PROFESOR) DESC;          
 
 
 --6--¿Qué cursos se imparten en cada escuela?
@@ -554,6 +581,12 @@ INSERT INTO PUBLIC.PUBLIC.CURSO_ASIGNATURA (ID_CURSO, ID_ASIGNATURA) VALUES
 ---------------------------------*/
 
 --9--Dime el numero de aula/s en la que le imparten clase a los niños de primaria de primer curso
+
+SELECT COUNT(DISTINCT a.ID_AULA)
+FROM PUBLIC.PUBLIC.AULA a
+INNER JOIN PUBLIC.PUBLIC.CURSO c ON a.ID_CURSO = c.ID_CURSO
+INNER JOIN PUBLIC.PUBLIC.ALUMNO a2 ON c.ID_CURSO = a2.ID_CURSO 
+WHERE c.NOMBRE LIKE 'PRIMERO_PRIMARIA';
 
 
 --10--Obtener la lista de alumnos y sus profesores respectivos (a través de las asignaturas que cursan)
