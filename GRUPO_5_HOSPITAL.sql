@@ -180,19 +180,48 @@ INSERT INTO PACIENTES (NOMBRE, EDAD, GENERO, TELEFONO, DIRECCION, NACIMIENTO, ID
 --1 Devuelve el nombre de todos los pacientes con al menos 50 años.
 --2 Muestra el promedio de edad de los pacientes por género.
 --3 Lista todos los pacientes nacidos en el año 1990.
---4 Encuentra los 5 medicamentos más caros.
+--4 Encuentra los 5 medicamentos más caros
+SELECT
+m.COSTE,
+m.NOMBRE
+FROM
+MEDICAMENTOS m
+ORDER BY
+m.COSTE DESC
+LIMIT 5;
 
 --Medios
 --5 Lista las citas programadas por cada doctor, mostrando solo aquellos con 2 o más citas.
 --6 Encuentra los doctores y sus respectivas especialidades, ordenados por nombre de especialidad.
 --7 Indica cual es el medicamento que más receta cada médico
 --8 Devuelve todas las salas del piso 2 que tengan como doctor asignado a alguien cuyo nombre empiece por "L"
+SELECT
+s.UBICACION, d.NOMBRE 
+FROM
+SALAS s
+INNER JOIN DOCTORES d ON
+s.ID_DOCTOR = d.ID_DOCTOR
+WHERE
+s.UBICACION LIKE 'Piso 2%'
+AND d.NOMBRE LIKE 'L%';
 
 --Difíciles
 --9 Lista todos los pacientes que han recibido recetas de un doctor con especialidad en "Cardiología".
 --10 Muestra la ubicación de la sala, el nombre del doctor, y la fecha y hora de la cita, siempre que sean antes de las 14:00.
 --11 Muestra los el nombre del doctor y la ID_PACIENTE que no tienen pacientes asignados ni citas programadas, sustituyendo los valores "NULL" por "NO EXISTE".
 --12 Muestra 5 doctores que tienen mas de 2 pacientes.
+SELECT
+d.NOMBRE AS Doctor,
+COUNT(p.ID_PACIENTE) AS Num_Pacientes
+FROM
+DOCTORES d
+INNER JOIN PACIENTES p ON
+d.ID_DOCTOR = p.ID_DOCTOR
+GROUP BY
+d.NOMBRE
+HAVING
+COUNT(p.ID_PACIENTE) > 2
+LIMIT 5;
 */
      */
     	
