@@ -194,6 +194,12 @@ INSERT INTO MANTENIMIENTO (MANTENIMIENTO_ID, TIPOS_MANTENIMIENTO) VALUES ('1','I
 -- 2. Obten una lista de todos los clientes que estan en la base de datos.
 -- 3. Mostrar todas las marcas de coches que utilizan gasolina.
 -- 4. Obtener los datos de los alquileres de coche en los que el coste final fue mayor a 200
+SELECT
+	*
+FROM
+	ALQUILER
+WHERE
+	COSTE_TOTAL > 200;
 
  
 -- Consultas Medias
@@ -202,6 +208,15 @@ INSERT INTO MANTENIMIENTO (MANTENIMIENTO_ID, TIPOS_MANTENIMIENTO) VALUES ('1','I
 -- 2. Listar los coches que son automaticos.
 -- 3. Moatrar los clientes que han alquilado un coche de color rojo.
 -- 4. Consulta cuántos coches de cada tipo de combustible hay.
+SELECT
+	TIPO_COMBUSTIBLE,
+	COUNT(COCHE_ID) AS NUMERO_DE_COCHES
+FROM
+	COCHES
+JOIN TIPOS_DE_COMBUSTIBLE ON
+	COCHES.TIPO_DE_COMBUSTIBLE_ID = TIPOS_DE_COMBUSTIBLE.TIPO_COMBUSTIBLE_ID
+GROUP BY
+	TIPO_COMBUSTIBLE;
 
  
 -- Consultas Dificiles
@@ -210,5 +225,12 @@ INSERT INTO MANTENIMIENTO (MANTENIMIENTO_ID, TIPOS_MANTENIMIENTO) VALUES ('1','I
 -- 2. Listar los coches cuyo último alquiler fue en JUNIO 2024
 -- 3. Obtener el coche que más ha sido alquilado y el número de veces que ha sido alquilado.
 -- 4. Calcular el ingreso total generado por los alquileres de coches en color negro
-
+SELECT
+	SUM(COSTE_TOTAL) AS INGRESO_TOTAL
+FROM
+	ALQUILER
+JOIN COCHES ON
+	ALQUILER.COCHE_ID = COCHES.COCHE_ID
+WHERE
+	COCHES.COLOR = 'Negro';
 
