@@ -1395,19 +1395,41 @@ INSERT INTO COACHES (COACH_NAME, COACH_NATIONALITY, COACH_BIRTH_DATE, EXPERIENCE
 ('Luis Carrión', 'SPA', '1979-02-07',9);
 
 
-/*ENUNCIADOS EJERCICIOS
- * 
- * --1.Listar todos los equipos y sus entrenadores
+--ENUNCIADOS EJERCICIOS
+
+--1.Listar todos los equipos y sus entrenadores
+SELECT t.TEAM_NAME, c.COACH_NAME 
+FROM TEAMS t
+INNER JOIN COACHES c ON t.COACH_ID = c.COACH_ID
+GROUP BY t.TEAM_NAME;
 
 --2.Lista nombre y nacionalidad del entrenador todos los equipos de la Liga
+SELECT COACH_NAME , COACH_NATIONALITY
+FROM COACHES c ;
 
 --3.Lista los 5 Entrenadores con mas experiencia 
+SELECT c.COACH_NAME, c.EXPERIENCE_YEARS 
+FROM COACHES c 
+ORDER BY c.EXPERIENCE_YEARS DESC LIMIT 5;
+
 
 --4.Indica la edad media de los entrenadores de primera division:
+SELECT c.*, avg((julianday('now') - julianday (COACH_BIRTH_DATE)) / 365.25 )
+FROM COACHES c;
+	--HAY FECHAS QUE NO ESTÁN BIEN ESCRITAS
 
 --5.Devuelve los nombres de los jugadores de la Liga nacidos en Septiembre:
+SELECT p.PLAYER_NAME 
+FROM PLAYERS p 
+WHERE p.BIRTH_DATE LIKE '%-09%';
+	--HAY FECHAS QUE NO ESTÁN BIEN ESCRITAS Y NO FUNCIO NA CON YEARS
 
 --6.Selecciona el nombre de los entrenadores y jugadores cuyo primer apellido coincida (UTILIZAR SUBSTRING)
+SELECT c.COACH_NAME, p.PLAYER_NAME
+FROM COACHES c
+JOIN TEAMS t ON c.COACH_ID = t.COACH_ID
+JOIN PLAYERS p ON t.TEAM_ID = p.TEAM_ID
+WHERE SUBSTR(c.COACH_NAME, INSTR(c.COACH_NAME, ' ') + 1) = SUBSTR(p.PLAYER_NAME, INSTR(p.PLAYER_NAME, ' ') + 1);
 
 --7.Listar los nombres de todos los jugadores y sus respectivos equipos
 
