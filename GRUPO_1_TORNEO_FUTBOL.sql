@@ -1412,12 +1412,27 @@ INSERT INTO COACHES (COACH_NAME, COACH_NATIONALITY, COACH_BIRTH_DATE, EXPERIENCE
 
 --7.Listar los nombres de todos los jugadores y sus respectivos equipos
 
+<<<<<<< HEAD
 --8.Listar los partidos jugados en el Bernabéu
 
 --9.Listar los equipos, sus estadios y las capacidades de los estadios ordenados de mayor a menor capacidad.
+=======
+
+
+--8.Listar los partidos jugados en el Bernabéu
+
+
+--9.Listar los equipos, sus estadios y las capacidades de los estadios ordenados de mayor a menor capacidad.
+
+>>>>>>> 9f170fc946656e50803956af03ca64707da66b3a
 
 --10.Selecciona el entrenador con mas partidos ganados
 
 --11.Selecciona los jugadores y su fecha de nacimiento que hayan nacido el primer dia de un mes y el equipo al que pertenecen tenga un estadio con capacidad para mas de 20000 personas
+<<<<<<< HEAD
   
 --12.Comprueba si hay errores en la BD entre los jugadores (2 jugadores del mismo equipo NO pueden tener el mismo numero)
+=======
+
+--12.Comprueba si hay errores en la BD entre los jugadores (2 jugadores del mismo equipo NO pueden tener el mismo numero)
+>>>>>>> 9f170fc946656e50803956af03ca64707da66b3a
