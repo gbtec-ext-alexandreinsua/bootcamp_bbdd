@@ -180,7 +180,9 @@ INSERT INTO PACIENTES (NOMBRE, EDAD, GENERO, TELEFONO, DIRECCION, NACIMIENTO, ID
 --1 Devuelve el nombre de todos los pacientes con al menos 50 años.
 --2 Muestra el promedio de edad de los pacientes por género.
 
+
 SELECT GENERO,AVG(EDAD) FROM PACIENTES p GROUP BY GENERO;
+
 
 --3 Lista todos los pacientes nacidos en el año 1990.
 --4 Encuentra los 5 medicamentos más caros.
@@ -189,7 +191,9 @@ SELECT GENERO,AVG(EDAD) FROM PACIENTES p GROUP BY GENERO;
 --5 Lista las citas programadas por cada doctor, mostrando solo aquellos con 2 o más citas.
 --6 Encuentra los doctores y sus respectivas especialidades, ordenados por nombre de especialidad.
 
+
 SELECT NOMBRE_ESPECIALIDAD, NOMBRE FROM DOCTORES d JOIN ESPECIALIDADES e USING(ID_ESPECIALIDAD) ORDER BY 1;
+
 
 --7 Indica cual es el medicamento que más receta cada médico
 --8 Devuelve todas las salas del piso 2 que tengan como doctor asignado a alguien cuyo nombre empiece por "L"
@@ -198,11 +202,13 @@ SELECT NOMBRE_ESPECIALIDAD, NOMBRE FROM DOCTORES d JOIN ESPECIALIDADES e USING(I
 --9 Lista todos los pacientes que han recibido recetas de un doctor con especialidad en "Cardiología".
 --10 Muestra la ubicación de la sala, el nombre del doctor, y la fecha y hora de la cita, siempre que sean antes de las 14:00.
 
+
 SELECT d.NOMBRE,s.UBICACION, c.FECHA, c.HORA FROM SALAS s 
 JOIN DOCTORES d ON s.ID_DOCTOR = d.ID_DOCTOR
 JOIN PACIENTES p ON d.ID_DOCTOR = p.ID_DOCTOR
 JOIN CITAS c ON p.ID_PACIENTE = c.ID_PACIENTE
 WHERE HORA < 14;
+
 
 --11 Muestra los el nombre del doctor y la ID_PACIENTE que no tienen pacientes asignados ni citas programadas, sustituyendo los valores "NULL" por "NO EXISTE".
 --12 Muestra 5 doctores que tienen mas de 2 pacientes.
