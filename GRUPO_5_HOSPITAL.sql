@@ -178,18 +178,55 @@ INSERT INTO PACIENTES (NOMBRE, EDAD, GENERO, TELEFONO, DIRECCION, NACIMIENTO, ID
 * EJERCICIOS: 
 --Fáciles
 --1 Devuelve el nombre de todos los pacientes con al menos 50 años.
+SELECT
+	p.NOMBRE ,
+	p.EDAD
+FROM
+	PACIENTES p
+WHERE
+	p.EDAD >= 50
+GROUP BY
+	p.NOMBRE;
+	
 --2 Muestra el promedio de edad de los pacientes por género.
 --3 Lista todos los pacientes nacidos en el año 1990.
 --4 Encuentra los 5 medicamentos más caros.
 
 --Medios
 --5 Lista las citas programadas por cada doctor, mostrando solo aquellos con 2 o más citas.
+SELECT
+	d.NOMBRE AS Doctores,
+	COUNT(c.ID_CITA) AS Num_citas
+FROM
+	DOCTORES d
+INNER JOIN PACIENTES p ON
+	d.ID_DOCTOR = p.ID_DOCTOR
+INNER JOIN CITAS c ON
+	c.ID_PACIENTE = p.ID_PACIENTE
+GROUP BY
+	d.NOMBRE
+HAVING
+	COUNT(c.ID_CITA) >= 2;
+	
 --6 Encuentra los doctores y sus respectivas especialidades, ordenados por nombre de especialidad.
 --7 Indica cual es el medicamento que más receta cada médico
 --8 Devuelve todas las salas del piso 2 que tengan como doctor asignado a alguien cuyo nombre empiece por "L"
 
 --Difíciles
 --9 Lista todos los pacientes que han recibido recetas de un doctor con especialidad en "Cardiología".
+SELECT DISTINCT 
+	p.NOMBRE AS Paciente, d.NOMBRE , e.NOMBRE_ESPECIALIDAD 
+FROM
+	PACIENTES p
+INNER JOIN RECETAS r ON
+	p.ID_PACIENTE = r.ID_PACIENTE
+INNER JOIN DOCTORES d ON
+	r.ID_DOCTOR = d.ID_DOCTOR
+INNER JOIN ESPECIALIDADES e ON
+	d.ID_ESPECIALIDAD = e.ID_ESPECIALIDAD
+WHERE
+	e.NOMBRE_ESPECIALIDAD = 'CARDIOLOGIA';
+	
 --10 Muestra la ubicación de la sala, el nombre del doctor, y la fecha y hora de la cita, siempre que sean antes de las 14:00.
 --11 Muestra los el nombre del doctor y la ID_PACIENTE que no tienen pacientes asignados ni citas programadas, sustituyendo los valores "NULL" por "NO EXISTE".
 --12 Muestra 5 doctores que tienen mas de 2 pacientes.
